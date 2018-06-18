@@ -1,0 +1,3099 @@
+package com.sample
+ 
+import org.kie.api.runtime.KieRuntime
+import javax.swing.JFrame;
+
+global JFrame frame
+
+declare Question
+   content : String
+   response : String
+end
+
+rule "Init"
+    when
+    then
+	    Question question = new Question();
+        question.setContent("Do you want to avoid using much of your brain?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Maximumyes"
+when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+	then
+		Question question = new Question();
+		question.setContent("How are your reflexes?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Unreal", "Average"));
+	    insert(question);
+end
+
+rule "Average"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Average")
+	then
+		Question question = new Question();
+		question.setContent("Do you want to point and click click click click ...?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you want to point and click click click click ..."
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Average")
+		c:Question (content == "Do you want to point and click click click click ...?" && response == "Yes")
+	then
+		Question question = new Question();
+		question.setContent("Do you playing for the next week straight?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you playing for the next week straight?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Average")
+		c:Question (content == "Do you want to point and click click click click ...?" && response == "Yes")
+		d:Question (content == "Do you playing for the next week straight?" && response == "Yes")
+	then
+		DroolsTest.finalWindow("World of Warcraft");
+end
+
+rule "NODo you playing for the next week straight?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Average")
+		c:Question (content == "Do you want to point and click click click click ...?" && response == "Yes")
+		d:Question (content == "Do you playing for the next week straight?" && response == "No")
+	then
+		DroolsTest.finalWindow("Diablo!");
+end
+rule "NODo you want to point and click click click click ..."
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Average")
+		c:Question (content == "Do you want to point and click click click click ...?" && response == "No")
+	then
+		Question question = new Question();
+		question.setContent("Do you want the hardest game ever?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+
+end
+rule "Do you want the hardest game ever?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Average")
+		c:Question (content == "Do you want to point and click click click click ...?" && response == "No")
+		d:Question (content == "Do you want the hardest game ever?" && response == "Yes")
+	then
+		DroolsTest.finalWindow("Devil May Cry 3!");
+
+end
+rule "NODo you want the hardest game ever?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Average")
+		c:Question (content == "Do you want to point and click click click click ...?" && response == "No")
+		d:Question (content == "Do you want the hardest game ever?" && response == "No")
+	then
+		DroolsTest.finalWindow("Monkey Ball!");
+
+end
+
+rule "Unreal"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+	then
+		Question question = new Question();
+		question.setContent("Are you on drugs?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Are you on drugs"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "Yes")
+	then
+		DroolsTest.finalWindow("Rez!");
+end
+
+rule "NOAre you on drugs"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+	then
+		Question question = new Question();
+		question.setContent("Do you want to fell like you are?");
+	    question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you want to fell like you are?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "Yes")
+	then
+		DroolsTest.finalWindow("Geometry Wars 2!");
+end
+
+
+rule "NODo you want to fell like you are?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "No")
+	then
+		Question question = new Question();
+        question.setContent("How's your timing?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Superb", "Average"));
+        insert(question);
+end
+
+
+rule "How's your timing?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "No")
+		e:Question (content == "How's your timing?" && response == "Superb")
+	then
+		Question question = new Question();
+        question.setContent("You want to rock out?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+
+rule "You want to rock out?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "No")
+		e:Question (content == "How's your timing?" && response == "Superb")
+		f:Question (content == "You want to rock out?" && response == "Yes")
+	then
+		DroolsTest.finalWindow("Rockband 3!");
+end
+
+rule "NOYou want to rock out?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "No")
+		e:Question (content == "How's your timing?" && response == "Superb")
+		f:Question (content == "You want to rock out?" && response == "No")
+	then
+		DroolsTest.finalWindow("Ikaruga!");
+end
+
+rule "AVERAGE How's your timing?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "No")
+		e:Question (content == "How's your timing?" && response == "Average")
+	then
+		Question question = new Question();
+        question.setContent("Are 2 buttons too many for you?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Are 2 buttons too many for you?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "No")
+		e:Question (content == "How's your timing?" && response == "Superb")
+		f:Question (content == "Are 2 buttons too many for you?" && response == "Yes")
+	then
+		DroolsTest.finalWindow("PAC-MAN!");
+end
+
+rule "NOAre 2 buttons too many for you?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "Yes")
+		b:Question (content == "How are your reflexes?" && response == "Unreal")
+		c:Question (content == "Are you on drugs?" && response == "No")
+		d:Question (content == "Do you want to fell like you are?" && response == "No")
+		e:Question (content == "How's your timing?" && response == "Superb")
+		f:Question (content == "Are 2 buttons too many for you?" && response == "No")
+	then
+		DroolsTest.finalWindow("Punch-Out!");
+end
+
+rule "NODo you want to avoid using much of your brain?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+	then
+		Question question = new Question();
+		question.setContent("Maximum Creativity?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+
+end
+
+rule "Maximum Creativity?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "Yes")
+	then
+		DroolsTest.finalWindow("Minecraft!");
+end
+
+rule "NOMaximum Creativity?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you want to solve some puzzles?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you want to solve some puzzles?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Do you feel the need for a storyline as well?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "NODo you feel the need for a storyline as well?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Kick it oldschool?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Kick it oldschool?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "No")
+		e:Question (content == "Kick it oldschool?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Tetris!");
+end
+
+rule "NOKick it oldschool?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "No")
+		e:Question (content == "Kick it oldschool?" && response == "No")
+	then
+        DroolsTest.finalWindow("Lumines!");
+end
+
+rule "Do you feel the need for a storyline as well?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Are you an Edward Gorey fan?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Are you an Edward Gorey fan?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "Yes")
+		e:Question (content == "Are you an Edward Gorey fan?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Limbo!");
+end
+
+rule "NOAre you an Edward Gorey fan?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "Yes")
+		e:Question (content == "Are you an Edward Gorey fan?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Looking for crazy Japanese awesomeness?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+
+rule "Looking for crazy Japanese awesomeness?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "Yes")
+		e:Question (content == "Are you an Edward Gorey fan?" && response == "No")
+		f:Question (content == "Looking for crazy Japanese awesomeness?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Katamari Damancy!");
+end
+
+rule "NOLooking for crazy Japanese awesomeness?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "Yes")
+		e:Question (content == "Are you an Edward Gorey fan?" && response == "No")
+		f:Question (content == "Looking for crazy Japanese awesomeness?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you want shiny textures or indi magic?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Indi", "Shiny"));
+        insert(question);
+end
+
+rule "Do you want shiny textures or indi magic?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "Yes")
+		e:Question (content == "Are you an Edward Gorey fan?" && response == "No")
+		f:Question (content == "Looking for crazy Japanese awesomeness?" && response == "No")
+		g:Question (content == "Do you want shiny textures or indi magic?" && response == "Indi")
+	then
+        DroolsTest.finalWindow("Braid!");
+end
+
+rule "SHINY Do you want shiny textures or indi magic?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "Yes")
+		d:Question (content == "Do you feel the need for a storyline as well?" && response == "Yes")
+		e:Question (content == "Are you an Edward Gorey fan?" && response == "No")
+		f:Question (content == "Looking for crazy Japanese awesomeness?" && response == "No")
+		g:Question (content == "Do you want shiny textures or indi magic?" && response == "Shiny")
+	then
+        DroolsTest.finalWindow("Portal 2!");
+end
+
+rule "NODo you want to solve some puzzles?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you enjoy simulations?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you enjoy simulations?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Do you want to be in charge of a life or an entrie city?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Life", "City"));
+	    insert(question);
+end
+
+rule "Do you want to be in charge of a life or an entrie city?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "Yes")
+		e:Question (content == "Do you want to be in charge of a life or an entrie city?" && response == "City")
+	then
+        DroolsTest.finalWindow("Sim City 2000!");
+end
+
+rule "LIFE Do you want to be in charge of a life or an entrie city?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "Yes")
+		e:Question (content == "Do you want to be in charge of a life or an entrie city?" && response == "Life")
+	then
+        DroolsTest.finalWindow("The Sims 3!");
+end
+
+rule "NODo you enjoy simulations?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you have multiple local players?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you have multiple local players?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Button mashable?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Button mashable?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Does realistic violence upset you?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Does realistic violence upset you?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "Yes")
+		g:Question (content == "Does realistic violence upset you?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Super Smash Bros!");
+end
+
+rule "NODoes realistic violence upset you?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "Yes")
+		g:Question (content == "Does realistic violence upset you?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you like big-ass weapons?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you like big-ass weapons?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "Yes")
+		g:Question (content == "Does realistic violence upset you?" && response == "No")
+		h:Question (content == "Do you like big-ass weapons?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Soul Calibur!");
+end
+
+rule "NODo you like big-ass weapons?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "Yes")
+		g:Question (content == "Does realistic violence upset you?" && response == "No")
+		h:Question (content == "Do you like big-ass weapons?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you want to tear out your opponent's spine?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you want to tear out your opponent's spine?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "Yes")
+		g:Question (content == "Does realistic violence upset you?" && response == "No")
+		h:Question (content == "Do you like big-ass weapons?" && response == "No")
+		i:Question (content == "Do you want to tear out your opponent's spine?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Mortal Kombat Deception!");
+end
+
+rule "NODo you want to tear out your opponent's spine?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "Yes")
+		g:Question (content == "Does realistic violence upset you?" && response == "No")
+		h:Question (content == "Do you like big-ass weapons?" && response == "No")
+		i:Question (content == "Do you want to tear out your opponent's spine?" && response == "No")
+	then
+        DroolsTest.finalWindow("Street Fighter IV SUPER!");
+end
+
+rule "NOButton mashable?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you own any official team jerseys?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you own any official team jerseys?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("EA Sports!");
+end
+
+rule "NODo you own any official team jerseys?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Does the sound of squealing tires excite you?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "YESDoes the sound of squealing tires excite you?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Should racing games be based in reality?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "NOShould racing games be based in reality?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Super speed or turtle shells?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Speed", "Shells"));
+	    insert(question);
+end
+
+rule "Super speed or turtle shells?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "Yes")
+		j:Question (content == "Super speed or turtle shells?" && response == "Speed")
+	then
+        DroolsTest.finalWindow("F Zero GX!");
+end
+
+rule "SHELLSSuper speed or turtle shells?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "Yes")
+		j:Question (content == "Super speed or turtle shells?" && response == "Shells")
+	then
+        DroolsTest.finalWindow("Mario Kart 64!");
+end
+
+rule "Should racing games be based in reality?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("You want to be a badass?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "You want to be a badass?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "Yes")
+		j:Question (content == "You want to be a badass?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Burnout Paradise!");
+end
+
+rule "NOYou want to be a badass?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "Yes")
+		j:Question (content == "You want to be a badass?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Rally or Track?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Rally", "Track"));
+	    insert(question);
+end
+
+rule "Rally or Track?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "Yes")
+		j:Question (content == "You want to be a badass?" && response == "No")
+		k:Question (content == "Rally or Track?" && response == "Rally")
+	then
+        DroolsTest.finalWindow("Sega Rally!");
+end
+
+rule "TRACKRally or Track?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "Yes")
+		i:Question (content == "Should racing games be based in reality?" && response == "Yes")
+		j:Question (content == "You want to be a badass?" && response == "No")
+		k:Question (content == "Rally or Track?" && response == "Track")
+	then
+        DroolsTest.finalWindow("Gran Turismo 3!");
+end
+
+rule "Does the sound of squealing tires excite you?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you think professional wrestling is stupid?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "NODo you think professional wrestling is stupid?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "No")
+		i:Question (content == "Do you think professional wrestling is stupid?" && response == "No")
+	then
+        DroolsTest.finalWindow("WF no mercy!");
+end
+
+rule "Do you think professional wrestling is stupid?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "No")
+		i:Question (content == "Do you think professional wrestling is stupid?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Skate or die putt?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Skate", "Putt"));
+	    insert(question);
+end
+
+rule "Skate or die putt?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "No")
+		i:Question (content == "Skate or die putt?" && response == "Skate")
+	then
+        DroolsTest.finalWindow("Tony Hawk's Pro Skater 3!");
+end
+
+rule "PUTTSkate or die putt?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "Yes")
+		f:Question (content == "Button mashable?" && response == "No")
+		g:Question (content == "Do you own any official team jerseys?" && response == "No")
+		h:Question (content == "Does the sound of squealing tires excite you?" && response == "No")
+		i:Question (content == "Skate or die putt?" && response == "Putt")
+	then
+        DroolsTest.finalWindow("Hot Shots Golf 2!");
+end
+
+rule "NODo you have multiple local players?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you want to lose yourself in another world?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you want to lose yourself in another world?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Do you yearn to level up your character?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you yearn to level up your character?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Do you fancy yourself a tactican?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you fancy yourself a tactican?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "Yes")
+	then
+        Question question = new Question();
+		question.setContent("Mobile or Console?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Mobile", "Console"));
+	    insert(question);
+end
+
+rule "Mobile or Console?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "Yes")
+		i:Question (content == "Mobile or Console?" && response == "Mobile")
+	then
+        DroolsTest.finalWindow("Advance Wars!");
+end
+
+rule "CONSOLEMobile or Console?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "Yes")
+		i:Question (content == "Mobile or Console?" && response == "Console")
+	then
+        DroolsTest.finalWindow("Final Fantasy Tactics!");
+end
+
+rule "NODo you fancy yourself a tactican?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you want to game made in Japan or America?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "USA", "Japan"));
+	    insert(question);
+end
+
+rule "Do you want to game made in Japan or America?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "USA")
+	then
+        Question question = new Question();
+		question.setContent("Are you cool without getting to use a lightsaber?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Are you cool without getting to use a lightsaber?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "USA")
+		j:Question (content == "Are you cool without getting to use a lightsaber?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Fallout!");
+end
+
+rule "NOAre you cool without getting to use a lightsaber?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "USA")
+		j:Question (content == "Are you cool without getting to use a lightsaber?" && response == "No")
+	then
+        DroolsTest.finalWindow("Star Wars Knights Old Republic!");
+end
+
+rule "JAPANDo you want to game made in Japan or America?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+	then
+        Question question = new Question();
+		question.setContent("Do you want some large-scale army battles?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you want some large-scale army battles?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Suikode II!");
+end
+
+rule "NODo you want some large-scale army battles?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Looking for real-time battles?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "NOLooking for real-time battles?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Are you capable of making fun of yourself?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Are you capable of making fun of yourself??"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Earth Bolind!");
+end
+
+rule "NOAre you capable of making fun of yourself??"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Do you have a serious dragon fetish?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Do you have a serious dragon fetish?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "No")
+	    m:Question (content == "Do you have a serious dragon fetish?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Dragon Quest VIII!");
+end
+
+rule "NODo you have a serious dragon fetish?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "No")
+	    m:Question (content == "Do you have a serious dragon fetish?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Care to play possibly the greatest game of all time?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+	    insert(question);
+end
+
+rule "Care to play possibly the greatest game of all time?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "No")
+	    m:Question (content == "Do you have a serious dragon fetish?" && response == "No")
+	    n:Question (content == "Care to play possibly the greatest game of all time?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Chrono Trigger!");
+end
+
+rule "NOCare to play possibly the greatest game of all time?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "No")
+	    m:Question (content == "Do you have a serious dragon fetish?" && response == "No")
+	    n:Question (content == "Care to play possibly the greatest game of all time?" && response == "No")
+	then
+        Question question = new Question();
+		question.setContent("Active Battle System or Conditional Turn-based Battle?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "ABS", "CBT"));
+	    insert(question);
+end
+
+rule "Active Battle System or Conditional Turn-based Battle?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "No")
+	    m:Question (content == "Do you have a serious dragon fetish?" && response == "No")
+	    n:Question (content == "Care to play possibly the greatest game of all time?" && response == "No")
+	    o:Question (content == "Active Battle System or Conditional Turn-based Battle?" && response == "ABS")
+	then
+        DroolsTest.finalWindow("Final Fantasy VI!");
+end
+
+rule "CBTActive Battle System or Conditional Turn-based Battle?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "No")
+		l:Question (content == "Are you capable of making fun of yourself?" && response == "No")
+	    m:Question (content == "Do you have a serious dragon fetish?" && response == "No")
+	    n:Question (content == "Care to play possibly the greatest game of all time?" && response == "No")
+	    o:Question (content == "Active Battle System or Conditional Turn-based Battle?" && response == "CBT")
+	then
+        DroolsTest.finalWindow("Final Fantasy X!");
+end
+
+rule "Looking for real-time battles?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "Yes")
+		h:Question (content == "Do you fancy yourself a tactican?" && response == "No")
+		i:Question (content == "Do you want to game made in Japan or America?" && response == "Japan")
+		j:Question (content == "Do you want some large-scale army battles?" && response == "No")
+		k:Question (content == "Looking for real-time battles?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Secret of Mana!");
+end
+
+rule "NODo you yearn to level up your character?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you like to be terrified?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you like to be terrified?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("Want to collect weapons but be to afraid to use any ammo?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Want to collect weapons but be to afraid to use any ammo?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "Yes")
+		i:Question (content == "Want to collect weapons but be to afraid to use any ammo?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Resident Evil 4!");
+end
+
+rule "NOWant to collect weapons but be to afraid to use any ammo?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "Yes")
+		i:Question (content == "Want to collect weapons but be to afraid to use any ammo?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you want to be confused and horrified the entrie time?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you want to be confused and horrified the entrie time?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "Yes")
+		i:Question (content == "Do you want to be confused and horrified the entrie time?" && response == "Yes")
+	then
+       DroolsTest.finalWindow("Silent hill 2!");
+end
+
+rule "NODo you want to be confused and horrified the entrie time?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "Yes")
+		i:Question (content == "Do you want to be confused and horrified the entrie time?" && response == "No")
+	then
+        DroolsTest.finalWindow("BioShock!");
+end
+
+rule "NODo you like to be terrified?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Is adventure enough for you, or are you an action junky?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Clean", "Junky"));
+        insert(question);
+end
+
+rule "Is adventure enough for you, or are you an action junky?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+	then
+        Question question = new Question();
+        question.setContent("Want some of the best acting and plot ever put into a game?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Want some of the best acting and plot ever put into a game?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Want some of the best acting and plot ever put into a game?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Gabriel Knight!");
+end
+
+rule "NOWant some of the best acting and plot ever put into a game?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Want some of the best acting and plot ever put into a game?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("More childish, or less?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "More", "Less"));
+        insert(question);
+end
+
+rule "More childish, or less?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Want some of the best acting and plot ever put into a game?" && response == "No")
+		k:Question (content == "More childish, or less?" && response == "More")
+	then
+        Question question = new Question();
+        question.setContent("How far-fetched do you want to get?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Absurd", "Regular"));
+        insert(question);
+end
+
+rule "How far-fetched do you want to get?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Want some of the best acting and plot ever put into a game?" && response == "No")
+		k:Question (content == "More childish, or less?" && response == "More")
+		l:Question (content == "How far-fetched do you want to get?" && response == "Absurd")
+	then
+        DroolsTest.finalWindow("Day of the Tontagle!");
+end
+
+rule "REGULARHow far-fetched do you want to get?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Want some of the best acting and plot ever put into a game?" && response == "No")
+		k:Question (content == "More childish, or less?" && response == "More")
+		l:Question (content == "How far-fetched do you want to get?" && response == "Regular")
+	then
+        DroolsTest.finalWindow("Monkey Island!");
+end
+
+rule "LESSMore childish, or less?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Want some of the best acting and plot ever put into a game?" && response == "No")
+		k:Question (content == "More childish, or less?" && response == "Less")
+	then
+        DroolsTest.finalWindow("Grim Fandango!");
+end
+
+rule "JUNKYIs adventure enough for you, or are you an action junky?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Junky")
+	then
+        Question question = new Question();
+        question.setContent("Do you want a little role playing with your action?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you want a little role playing with your action?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("Do you have a fetish for any Disney characters?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you have a fetish for any Disney characters?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Kingdom Hearths!");
+end
+
+rule "NODo you have a fetish for any Disney characters?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("What about outer-space?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "What about outer-space?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "No")
+		l:Question (content == "What about outer-space?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Mass Effect 2!");
+end
+
+rule "NOWhat about outer-space?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "No")
+		l:Question (content == "What about outer-space?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Feel like throwing in some first person shooting?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Feel like throwing in some first person shooting?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "No")
+		l:Question (content == "What about outer-space?" && response == "No")
+		m:Question (content == "Feel like throwing in some first person shooting?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Deus Ex Human Revolution!");
+end
+
+rule "NOFeel like throwing in some first person shooting?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "No")
+		l:Question (content == "What about outer-space?" && response == "No")
+		m:Question (content == "Feel like throwing in some first person shooting?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("How about some platforming?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "NOHow about some platforming?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "No")
+		l:Question (content == "What about outer-space?" && response == "No")
+		m:Question (content == "Feel like throwing in some first person shooting?" && response == "No")
+		n:Question (content == "How about some platforming?" && response == "No")
+	then
+        DroolsTest.finalWindow("The Elder Scrolls V SKYRIM!");
+end
+
+rule "How about some platforming?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "Yes")
+		k:Question (content == "Do you have a fetish for any Disney characters?" && response == "No")
+		l:Question (content == "What about outer-space?" && response == "No")
+		m:Question (content == "Feel like throwing in some first person shooting?" && response == "No")
+		n:Question (content == "How about some platforming?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Castlevania!");
+end
+
+rule "NODo you want a little role playing with your action?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("You want a female or male main character?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Male", "Female"));
+        insert(question);
+end
+
+rule "FEMALEYou want a female or male main character?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Female")
+	then
+        Question question = new Question();
+        question.setContent("Alien conspiracy or lost relics?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Aliens", "Relics"));
+        insert(question);
+end
+
+rule "Alien conspiracy or lost relics?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Female")
+		l:Question (content == "Alien conspiracy or lost relics?" && response == "Aliens")
+	then
+        DroolsTest.finalWindow("Beyond Good and Evil!");
+end
+
+rule "RELICSAlien conspiracy or lost relics?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Female")
+		l:Question (content == "Alien conspiracy or lost relics?" && response == "Relics")
+	then
+        DroolsTest.finalWindow("Tomb Rider Anneversary!");
+end
+
+rule "You want a female or male main character?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+	then
+        Question question = new Question();
+        question.setContent("Link?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Link!", "Nope"));
+        insert(question);
+end
+
+rule "Link?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Link!")
+	then
+        Question question = new Question();
+        question.setContent("Oldschool or Newschool?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "New", "Old"));
+        insert(question);
+end
+
+rule "Oldschool or Newschool?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Link!")
+		m:Question (content == "Oldschool or Newschool?" && response == "Old")
+	then
+        DroolsTest.finalWindow("Zelda Link Do The Fast!");
+end
+
+rule "NEWOldschool or Newschool?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Link!")
+		m:Question (content == "Oldschool or Newschool?" && response == "New")
+	then
+        Question question = new Question();
+        question.setContent("Do you like gaming with a Wiimote?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you like gaming with a Wiimote?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Link!")
+		m:Question (content == "Oldschool or Newschool?" && response == "New")
+		n:Question (content == "Do you like gaming with a Wiimote?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("The legend of zelda twilight princess!");
+end
+
+rule "NODo you like gaming with a Wiimote?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Link!")
+		m:Question (content == "Oldschool or Newschool?" && response == "New")
+		n:Question (content == "Do you like gaming with a Wiimote?" && response == "No")
+	then
+        DroolsTest.finalWindow("The legend of zelda wind waker!");
+end
+
+rule "NOPELink?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+	then
+        Question question = new Question();
+        question.setContent("You want a beatifully crafted Japanese story?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "You want a beatifully crafted Japanese story?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("Do you lean more towards the art or the story?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Art", "Story"));
+        insert(question);
+end
+
+rule "Do you lean more towards the art or the story?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "Yes")
+		n:Question (content == "Do you lean more towards the art or the story?" && response == "Art")
+	then
+        DroolsTest.finalWindow("Omami!");
+end
+
+rule "STORYDo you lean more towards the art or the story?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "Yes")
+		n:Question (content == "Do you lean more towards the art or the story?" && response == "Story")
+	then
+        DroolsTest.finalWindow("ICO!");
+end
+
+rule "NOYou want a beatifully crafted Japanese story?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Open World?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Closed", "Open"));
+        insert(question);
+end
+
+rule "Open World?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Open")
+	then
+        Question question = new Question();
+        question.setContent("Do you want to be an assassin, criminal or cowboy?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Assassin", "Cowboy", "Criminal"));
+        insert(question);
+end
+
+rule "Do you want to be an assassin, criminal or cowboy?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Open")
+		o:Question (content == "Do you want to be an assassin, criminal or cowboy?" && response == "Assassin")
+	then
+        DroolsTest.finalWindow("Assassin's creed II!");
+end
+
+rule "COWDo you want to be an assassin, criminal or cowboy?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Open")
+		o:Question (content == "Do you want to be an assassin, criminal or cowboy?" && response == "Cowboy")
+	then
+        DroolsTest.finalWindow("Read dead redemption!");
+end
+
+rule "CRIMINALDo you want to be an assassin, criminal or cowboy?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Open")
+		o:Question (content == "Do you want to be an assassin, criminal or cowboy?" && response == "Criminal")
+	then
+        DroolsTest.finalWindow("GTA IV!");
+end
+
+rule "CLOSEDOpen World?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+	then
+        Question question = new Question();
+        question.setContent("Do you want stealth to be rewarded?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you want stealth to be rewarded?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("Are you Batman? Or do you want to be?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Are you Batman? Or do you want to be?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "Yes")
+		p:Question (content == "Are you Batman? Or do you want to be?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("BATMAN Arkhan City!");
+end
+
+rule "NOAre you Batman? Or do you want to be?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "Yes")
+		p:Question (content == "Are you Batman? Or do you want to be?" && response == "No")
+	then
+        DroolsTest.finalWindow("Metal Gear Solid 3!");
+end
+
+rule "NODo you want stealth to be rewarded?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Keep things simple?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Keep things simple?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Castle Crashers!");
+end
+
+rule "NOKeep things simple?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you want to kill gods(or tings decidedly godlike)?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you want to kill gods(or tings decidedly godlike)?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "No")
+		q:Question (content == "Do you want to kill gods(or tings decidedly godlike)?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("Do you enjoy brutal gratuitous carnage?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you enjoy brutal gratuitous carnage?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "No")
+		q:Question (content == "Do you want to kill gods(or tings decidedly godlike)?" && response == "Yes")
+		r:Question (content == "Do you enjoy brutal gratuitous carnage?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("God of War!");
+end
+
+rule "NODo you enjoy brutal gratuitous carnage?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "No")
+		q:Question (content == "Do you want to kill gods(or tings decidedly godlike)?" && response == "Yes")
+		r:Question (content == "Do you enjoy brutal gratuitous carnage?" && response == "No")
+	then
+        DroolsTest.finalWindow("Shadow of the Colossus!");
+end
+
+rule "NODo you want to kill gods(or tings decidedly godlike)?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "No")
+		q:Question (content == "Do you want to kill gods(or tings decidedly godlike)?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you want to run on walls or keep it a little more grounded?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Walls", "Ground"));
+        insert(question);
+end
+
+rule "WALLSDo you want to run on walls or keep it a little more grounded?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "No")
+		q:Question (content == "Do you want to kill gods(or tings decidedly godlike)?" && response == "No")
+		r:Question (content == "Do you want to run on walls or keep it a little more grounded?" && response == "Walls")
+	then
+        DroolsTest.finalWindow("Prince of Persia The Sands of Time!");
+end
+
+rule "Do you want to run on walls or keep it a little more grounded?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "Yes")
+		g:Question (content == "Do you yearn to level up your character?" && response == "No")
+		h:Question (content == "Do you like to be terrified?" && response == "No")
+		i:Question (content == "Is adventure enough for you, or are you an action junky?" && response == "Clean")
+		j:Question (content == "Do you want a little role playing with your action?" && response == "No")
+		k:Question (content == "You want a female or male main character?" && response == "Male")
+		l:Question (content == "Link?" && response == "Nope")
+		m:Question (content == "You want a beatifully crafted Japanese story?" && response == "No")
+		n:Question (content == "Open World?" && response == "Closed")
+		o:Question (content == "Do you want stealth to be rewarded?" && response == "No")
+		p:Question (content == "Keep things simple?" && response == "No")
+		q:Question (content == "Do you want to kill gods(or tings decidedly godlike)?" && response == "No")
+		r:Question (content == "Do you want to run on walls or keep it a little more grounded?" && response == "Ground")
+	then
+        DroolsTest.finalWindow("Uncharted 2!");
+end
+
+rule "NODo you want to lose yourself in another world?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Would you rather jump to platforms, or shoot someone in the face?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Platform", "Face"));
+        insert(question);
+end
+
+rule "Would you rather jump to platforms, or shoot someone in the face?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+	then
+        Question question = new Question();
+        question.setContent("First or third person view?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "3rd", "1st"));
+        insert(question);
+end
+
+rule "First or third person view?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "3rd")
+	then
+        DroolsTest.finalWindow("Gears of War 2!");
+end
+
+rule "1STFirst or third person view?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+	then
+        Question question = new Question();
+        question.setContent("Are you looking for a single player?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Are you looking for a single player?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("Keyboard only or do you want to use a mouse as well?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Mouse", "Keys"));
+        insert(question);
+end
+
+rule "Keyboard only or do you want to use a mouse as well?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "Yes")
+		j:Question (content == "Keyboard only or do you want to use a mouse as well?" && response == "Keys")
+	then
+        DroolsTest.finalWindow("DOOM II!");
+end
+
+rule "MOUSEKeyboard only or do you want to use a mouse as well?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "Yes")
+		j:Question (content == "Keyboard only or do you want to use a mouse as well?" && response == "Mouse")
+	then
+        DroolsTest.finalWindow("Half-life 2!");
+end
+
+rule "NOAre you looking for a single player?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you like games without a re-spawn?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you like games without a re-spawn?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Counter-Strike!");
+end
+
+rule "NODo you like games without a re-spawn?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Ridiculous non-stop action, rocket, jumps, laser guns etc.?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Ridiculous non-stop action, rocket, jumps, laser guns etc.?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Quake III Arena!");
+end
+
+rule "NORidiculous non-stop action, rocket, jumps, laser guns etc.?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Heavy reliance on team-play and strategy?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Heavy reliance on team-play and strategy?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "No")
+		l:Question (content == "Heavy reliance on team-play and strategy?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Team Fortress 2!");
+end
+
+rule "NOHeavy reliance on team-play and strategy?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "No")
+		l:Question (content == "Heavy reliance on team-play and strategy?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you like being called a n00b by 8 years old?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you like being called a n00b by 8 years old?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "No")
+		l:Question (content == "Heavy reliance on team-play and strategy?" && response == "No")
+		m:Question (content == "Do you like being called a n00b by 8 years old?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("HALO 3!");
+end
+
+rule "NODo you like being called a n00b by 8 years old?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "No")
+		l:Question (content == "Heavy reliance on team-play and strategy?" && response == "No")
+		m:Question (content == "Do you like being called a n00b by 8 years old?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Zombies?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Zombies?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "No")
+		l:Question (content == "Heavy reliance on team-play and strategy?" && response == "No")
+		m:Question (content == "Do you like being called a n00b by 8 years old?" && response == "No")
+		n:Question (content == "Zombies?" && response == "No")
+	then
+        DroolsTest.finalWindow("Call of Duty 4 MODERN WARFARE!");
+end
+
+rule "YESZombies?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Face")
+		h:Question (content == "First or third person view?" && response == "1st")
+		i:Question (content == "Are you looking for a single player?" && response == "No")
+		j:Question (content == "Do you like games without a re-spawn?" && response == "No")
+		k:Question (content == "Ridiculous non-stop action, rocket, jumps, laser guns etc.?" && response == "No")
+		l:Question (content == "Heavy reliance on team-play and strategy?" && response == "No")
+		m:Question (content == "Do you like being called a n00b by 8 years old?" && response == "No")
+		n:Question (content == "Zombies?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Left 4 Dead 2!");
+end
+
+rule "PLATFORMWould you rather jump to platforms, or shoot someone in the face?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+	then
+        Question question = new Question();
+        question.setContent("Do you want to shoot people while jumping platforms?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you want to shoot people while jumping platforms?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("More run-and-gun, less platforming?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "More run-and-gun, less platforming?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "Yes")
+		i:Question (content == "More run-and-gun, less platforming?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Contra III!");
+end
+
+rule "NOMore run-and-gun, less platforming?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "Yes")
+		i:Question (content == "More run-and-gun, less platforming?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Add some adventure to your action/platformer?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Add some adventure to your action/platformer?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "Yes")
+		i:Question (content == "More run-and-gun, less platforming?" && response == "No")
+		j:Question (content == "Add some adventure to your action/platformer?" && response == "No")
+	then
+        DroolsTest.finalWindow("MEGA MAN 2!");
+end
+
+rule "YESAdd some adventure to your action/platformer?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "Yes")
+		i:Question (content == "More run-and-gun, less platforming?" && response == "No")
+		j:Question (content == "Add some adventure to your action/platformer?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("SUPER METROID");
+end
+
+rule "NODo you want to shoot people while jumping platforms?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you have an affection for Italian plumbers?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you have an affection for Italian plumbers?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "Yes")
+	then
+        Question question = new Question();
+        question.setContent("Do you want the controls kept as simple as possible?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you want the controls kept as simple as possible?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "Yes")
+		j:Question (content == "Do you want the controls kept as simple as possible?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("SUPER MARIO Bros 3!");
+end
+
+rule "NODo you want the controls kept as simple as possible?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "Yes")
+		j:Question (content == "Do you want the controls kept as simple as possible?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Keep it 2D or break into a third dimension?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "2D", "3D"));
+        insert(question);
+end
+
+rule "Keep it 2D or break into a third dimension?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "Yes")
+		j:Question (content == "Do you want the controls kept as simple as possible?" && response == "No")
+		k:Question (content == "Keep it 2D or break into a third dimension?" && response == "2D")
+	then
+        DroolsTest.finalWindow("SUPER MARIO WORLD!");
+end
+
+rule "3DKeep it 2D or break into a third dimension?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "Yes")
+		j:Question (content == "Do you want the controls kept as simple as possible?" && response == "No")
+		k:Question (content == "Keep it 2D or break into a third dimension?" && response == "3D")
+	then
+        Question question = new Question();
+        question.setContent("Do you want some 2D throwback levels in the mix?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "2D", "3D"));
+        insert(question);
+end
+
+rule "Do you want some 2D throwback levels in the mix?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "Yes")
+		j:Question (content == "Do you want the controls kept as simple as possible?" && response == "No")
+		k:Question (content == "Keep it 2D or break into a third dimension?" && response == "3D")
+		l:Question (content == "Do you want some 2D throwback levels in the mix?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("SUPER MARIO GALAXY 2!");
+end
+
+rule "NODo you want some 2D throwback levels in the mix?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "Yes")
+		j:Question (content == "Do you want the controls kept as simple as possible?" && response == "No")
+		k:Question (content == "Keep it 2D or break into a third dimension?" && response == "3D")
+		l:Question (content == "Do you want some 2D throwback levels in the mix?" && response == "No")
+	then
+        DroolsTest.finalWindow("SUPER MARIO 64!");
+end
+
+rule "NODo you have an affection for Italian plumbers?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you yearn for 1980's cartoons?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you yearn for 1980's cartoons?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "No")
+		j:Question (content == "Do you yearn for 1980's cartoons?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("DuckTales!");
+end
+
+rule "NODo you yearn for 1980's cartoons?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "No")
+		j:Question (content == "Do you yearn for 1980's cartoons?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Do you actually enjoy under-water levels?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Do you actually enjoy under-water levels?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "No")
+		j:Question (content == "Do you yearn for 1980's cartoons?" && response == "No")
+		k:Question (content == "Do you actually enjoy under-water levels?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("DONKEY KONG COUNTRY!");
+end
+
+rule "NODo you actually enjoy under-water levels?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "No")
+		j:Question (content == "Do you yearn for 1980's cartoons?" && response == "No")
+		k:Question (content == "Do you actually enjoy under-water levels?" && response == "No")
+	then
+        Question question = new Question();
+        question.setContent("Want to keep it indi?");
+        question.setResponse(DroolsTest.askUser(question.getContent(), "Yes", "No"));
+        insert(question);
+end
+
+rule "Want to keep it indi?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "No")
+		j:Question (content == "Do you yearn for 1980's cartoons?" && response == "No")
+		k:Question (content == "Do you actually enjoy under-water levels?" && response == "No")
+		m:Question (content == "Want to keep it indi?" && response == "No")
+	then
+        DroolsTest.finalWindow("PsychoNauts!");
+end
+
+rule "YESWant to keep it indi?"
+	when
+		a:Question (content == "Do you want to avoid using much of your brain?" && response == "No")
+		b:Question (content == "Maximum Creativity?" && response == "No")
+		c:Question (content == "Do you want to solve some puzzles?" && response == "No")
+		d:Question (content == "Do you enjoy simulations?" && response == "No")
+		e:Question (content == "Do you have multiple local players?" && response == "No")
+		f:Question (content == "Do you want to lose yourself in another world?" && response == "No")
+		g:Question (content == "Would you rather jump to platforms, or shoot someone in the face?" && response == "Platform")
+		h:Question (content == "Do you want to shoot people while jumping platforms?" && response == "No")
+		i:Question (content == "Do you have an affection for Italian plumbers?" && response == "No")
+		j:Question (content == "Do you yearn for 1980's cartoons?" && response == "No")
+		k:Question (content == "Do you actually enjoy under-water levels?" && response == "No")
+		m:Question (content == "Want to keep it indi?" && response == "Yes")
+	then
+        DroolsTest.finalWindow("Super Meat Boy!");
+end
